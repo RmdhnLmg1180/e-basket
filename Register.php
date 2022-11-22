@@ -94,9 +94,9 @@ if (isset($_POST['submit'])) {
                 <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="confirm your password" value="<?php echo $_POST['cpassword']; ?>" required>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary" name="login">Login</button>
+            <button type="submit" class="btn btn-primary" name="login">Registrasi</button>
           </form>
-          <p>jika sudah memiliki akun silahkan <a href="login.php">Login</a></p>
+          <p>jika sudah memiliki akun silahkan <a href="login.php" class="text-decoration-none">Login</a></p>
         </div>
       </div>
     </section>

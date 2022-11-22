@@ -75,7 +75,7 @@ if (isset($_POST['login'])) {
             </div>
             <button type="submit" class="btn btn-primary" name="login">Login</button>
           </form>
-          <p>jika belum memiliki akun silahkan <a href="register.php">Registrasi</a></p>
+          <p>jika belum memiliki akun silahkan <a href="register.php" class="text-decoration-none">Registrasi</a></p>
         </div>
       </div>
     </section>
