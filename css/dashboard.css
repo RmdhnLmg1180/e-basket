@@ -1,0 +1,9 @@
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+.d-flex p-2 {
+  background-color: #457b9d;
+  color: blue;
+  padding: 10px;
+}
