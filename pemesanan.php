@@ -3,10 +3,33 @@
 session_start();
  
 if (!isset($_SESSION['username'])) {
-    header("Location: index.php");
+    header("Location: login.php");
 }
 include "koneksi.php";
- 
+
+$eml="";
+
+if (isset($_POST['submit'], $eml)) {
+    $eml = $_POST['email'];
+    $tanggal = $_POST['tgl_pesan'];
+    $jm_awl = $_POST['jam_pesan'];
+    $jm_akr = $_POST['Jam_selesai'];
+    $nolpg = $_POST['no_lpgn'];
+    $jaminan = $_POST['jaminan'];
+
+    if ($eml == $_SESSION) {
+    $sql = "SELECT * FROM pemesanan s, pelanggan p WHERE p.email = s.email";
+    $result = mysqli_query($conn, $sql);
+    if ($result->num_rows > 0) {
+        $sql = "INSERT IN TO pemesanan(email, jam_pesan, Jam_selesai, tgl_pesan, no_lpgn, jaminan)
+            values('$eml', '$jm_awl', '$jm_akr', '$tanggal', '$nolpg', '$jaminan')";
+    } else {
+        echo "<script>alert('Email Anda salah. Silahkan coba lagi!')</script>";
+    }
+}
+
+
+}
 ?>
  
  <!DOCTYPE html>
@@ -79,7 +102,7 @@ include "koneksi.php";
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-fixed navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -118,6 +141,7 @@ include "koneksi.php";
                     </ul>
 
                 </nav>
+                
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -131,58 +155,95 @@ include "koneksi.php";
                     <!-- Content Row -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Silahkan isi Form dibawah ini !</h6>
+                            <h6 class="m-0 font-weight-bold text-info">Silahkan isi Form dibawah ini !</h6>
                         </div>
                     </div>
-                    <form action="" method="POST">
+                        <form action="" method="post">
                             <div class="pesanan">
                                 <!-- email -->
-                                <div>
+                                <div class="d-sm-flex">
+                                    <div>
+                                        <div class="card-header py-3">
+                                            <label for="cemail" class="form-label text-primary font-weight-bold">Konfirmasi Email</label>
+                                        </div>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="<?php echo $eml; ?>" required>
+                                    </div> 
                                     <div class="card-header py-3">
-                                        <label for="cemail" class="form-label text-primary font-weight-bold">Konfirmasi Email</label>
+                                        <label for="tm" class="form-label text-primary font-weight-bold"></label>
                                     </div>
-                                </div> 
+                                </div>
                                 <!-- tanggal -->
-                                <div>
+                                <div class="d-sm-flex">
+                                    <div>
+                                        <div class="card-header py-3">
+                                            <label for="tanggal" class="form-label text-primary font-weight-bold">Tanggal</label>
+                                        </div>
+                                        <div>
+                                        <input type="date" class="form-control" id="tanggal" name="tgl_pesan" placeholder="time" value="<?php echo $tanggal; ?>" required>
+                                        </div>
+                                    </div> 
                                     <div class="card-header py-3">
-                                        <label for="tanggal" class="form-label text-primary font-weight-bold">Tanggal</label>
+                                                <label for="tm" class="form-label text-primary font-weight-bold"></label>
                                     </div>
-                                    <div class="d-sm-flex">
-                                    <input type="date" class="form-control" id="tanggal" name="tm" placeholder="time" value="" required>
-                                    </div>
-                                </div> 
+                                </div>
                                 <div class="d-sm-flex">
                                     <!-- jam mulai -->
                                     <div>
                                         <div class="card-header py-3">
                                             <label for="tm" class="form-label text-primary font-weight-bold">Jam Mulai</label>
                                         </div>
-                                        <input type="time" class="form-control" id="tm" name="tm" placeholder="time" value="" required>
+                                        <input type="time" class="form-control" id="tm" name="jam_pesan" placeholder="time" value="<?php echo $jm_awl; ?>" required>
                                     </div> 
                                     <!-- Jam Selesai -->
+                                        <div class="card-header py-3">
+                                            <label for="tm" class="form-label text-primary font-weight-bold"></label>
+                                        </div>
                                     <div>
                                         <div class="card-header py-3">
                                             <label for="wm" class="form-label text-primary font-weight-bold">Jam Selesai</label>
                                         </div>
-                                        <input type="time" class="form-control" id="wm" name="tm" placeholder="time" value="" required>
+                                        <input type="time" class="form-control" id="wm" name="Jam_selesai" placeholder="time" value="<?php echo $jm_akr; ?>" required>
                                     </div>
                                 </div> 
                                 <!-- lapangan -->
+                                <div class="d-sm-flex">
+                                    <div>
+                                        <div class="card-header py-3">
+                                            <label for="nolpgn" class="form-label text-primary font-weight-bold">Lapangan</label>
+                                        </div>
+                                        <div class="lpg">
+                                        <select class="form-select" aria-label="Default select example" id="nolpgn">
+                                            <option selected>-Pilih-</option>
+                                            <?php 
+                                            $lpg = mysqli_query($conn,"SELECT no_lpgn FROM lapangan");
+                                            while($row=mysqli_fetch_array($lpg)) {
+                                            ?>
+                                            <option value="<?php echo $nolpg; ?>" required><?php echo $row[0] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                        </div>
+                                    </div>
                                     <div class="card-header py-3">
-                                        <label for="nolpgn" class="form-label text-primary font-weight-bold">Lapangan</label>
+                                            <label for="tm" class="form-label text-primary font-weight-bold"></label>
                                     </div>
-                                    <div class="lpg">
-                                    <select class="form-select" aria-label="Default select example" id="nolpgn">
-                                        <option selected>-Pilih-</option>
-                                        <?php 
-                                        $lpg = mysqli_query($conn,"SELECT no_lpgn FROM lapangan");
-                                        while($row=mysqli_fetch_array($lpg)) {
-                                        ?>
-                                        <option value="<?php echo $row[0]?>"><?php echo $row[0] ?></option>
-                                        <?php } ?>
-                                    </select>
-                                    </div>
+                                </div>
                                 <!-- Jaminan -->
+                                <div class="d-sm-flex">
+                                    <div>
+                                        <div class="card-header py-3">
+                                            <label for="jmn" class="form-label text-primary font-weight-bold">Jaminan</label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input class="form-control" type="file" id="formFile" value="<?php echo $jaminan; ?>" required>
+                                            <label for="formFile" class="form-label">nb. Jaminan berupa data diri seperti KTP/SIM</label>
+                                        </div>
+                                    </div>
+                                    <div class="card-header py-3">
+                                            <label for="tm" class="form-label text-primary font-weight-bold"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" name="login">Kirim</button>
                         </form>
                 </div>
                 <!-- /.container-fluid -->

@@ -84,7 +84,7 @@ if (!isset($_SESSION['username'])) {
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <li class="nav-item active">
+                        <li class="nav-item opacity-100">
                             <a class="nav-link" href="pesan.php">
                                 <i class="fa-solid fa-check-to-slot"></i>
                                 <!-- Counter - Alerts -->
