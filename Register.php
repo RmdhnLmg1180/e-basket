@@ -7,7 +7,7 @@ error_reporting(0);
 session_start();
  
 if (isset($_SESSION['username'])) {
-    header("Location: index.php");
+    header("Location: login.php");
 }
  
 if (isset($_POST['submit'])) {
@@ -85,16 +85,16 @@ if (isset($_POST['submit'])) {
             <div class="login-form">
               <div class="mb-3">
               <label for="username" class="form-label">Username</label>
-                <input type="username" class="form-control" id="username" name="username" placeholder="Enter your name" value="<?php echo $username; ?>" required>
+              <input type="text" placeholder="Username" class="form-control" name="username" value="<?php echo $username; ?>" required>
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="<?php echo $email; ?>" required>
+                <input type="email" placeholder="Email" name="email" class="form-control" value="<?php echo $email; ?>" required>
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" value="<?php echo $_POST['password']; ?>" required>
+                <input type="password" placeholder="Password" name="password" class="form-control" value="<?php echo $_POST['password']; ?>" required>
                 <label for="cpassword" class="form-label">Confirmasi Password</label>
-                <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="confirm your password" value="<?php echo $_POST['cpassword']; ?>" required>
+                <input type="password" placeholder="confirm your Password" name="cpassword" class="form-control" value="<?php echo $_POST['cpassword']; ?>" required>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary" name="login">Registrasi</button>
+            <button name="submit" class="btn btn-primary">Register</button>
           </form>
           <p>jika sudah memiliki akun silahkan <a href="login.php" class="text-decoration-none">Login</a></p>
         </div>

@@ -3,8 +3,10 @@
 session_start();
  
 if (!isset($_SESSION['username'])) {
-    header("Location: index.php");
-}
+    $email1 = $_SESSION['email'];
+    $pass = $_SESSION['password'];
+      header("Location: login.php");
+  }
  
 ?>
  
@@ -84,7 +86,7 @@ if (!isset($_SESSION['username'])) {
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <li class="nav-item opacity-100">
+                        <li class="nav-item">
                             <a class="nav-link" href="pesan.php">
                                 <i class="fa-solid fa-check-to-slot"></i>
                                 <!-- Counter - Alerts -->

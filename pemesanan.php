@@ -1,35 +1,42 @@
 <?php 
- 
+
+error_reporting(0);
+include 'koneksi.php';
 session_start();
+
+if (isset($_POST['submit'])) {
+    $email = $_POST['email'];
+    $tanggal = $_POST['tanggal'];
+    $jam_pesan = $_POST['jam_pesan'];
+    $Jam_selesai = $_POST['Jam_selesai'];
+    $no_lpgn = $_POST['no_lpgn'];
+    $jaminan = md5($_POST['jaminan']);
  
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-}
-include "koneksi.php";
-
-$eml="";
-
-if (isset($_POST['submit'], $eml)) {
-    $eml = $_POST['email'];
-    $tanggal = $_POST['tgl_pesan'];
-    $jm_awl = $_POST['jam_pesan'];
-    $jm_akr = $_POST['Jam_selesai'];
-    $nolpg = $_POST['no_lpgn'];
-    $jaminan = $_POST['jaminan'];
-
-    if ($eml == $_SESSION) {
-    $sql = "SELECT * FROM pemesanan s, pelanggan p WHERE p.email = s.email";
-    $result = mysqli_query($conn, $sql);
-    if ($result->num_rows > 0) {
-        $sql = "INSERT IN TO pemesanan(email, jam_pesan, Jam_selesai, tgl_pesan, no_lpgn, jaminan)
-            values('$eml', '$jm_awl', '$jm_akr', '$tanggal', '$nolpg', '$jaminan')";
-    } else {
-        echo "<script>alert('Email Anda salah. Silahkan coba lagi!')</script>";
+        $sql = "SELECT * FROM pelanggan WHERE email='$email'";
+        $result = mysqli_query($conn, $sql);
+        if ($result->num_rows > 0) {
+            $sql = "INSERT INTO pemesanan (email, jam_pesan, Jam_selesai, tanggal, no_lpgn, jaminan)
+                    VALUES ('$email', '$jam_pesan', '$Jam_selesai', '$tanggal', '$no_lpgn', '$jaminan' )";
+            $result = mysqli_query($conn, $sql);
+            if ($result) {
+                echo "<script>alert('Selamat, Pemesanan anda berhasil!')</script>";
+                $email = "";
+                $tanggal = "";
+                $jam_pesan = "";
+                $Jam_selesai = "";
+                $no_lpgn = "";
+                $_POST['jaminan'] = "";
+            } else {
+                echo "<script>alert('Woops! Terjadi kesalahan dalam memesan.')</script>";
+            }
+        } else {
+            echo "<script>alert('Woops! Email tidak sesuai dengan akun anda.')</script>";
+        }
+         
     }
-}
 
 
-}
+
 ?>
  
  <!DOCTYPE html>
@@ -166,7 +173,7 @@ if (isset($_POST['submit'], $eml)) {
                                         <div class="card-header py-3">
                                             <label for="cemail" class="form-label text-primary font-weight-bold">Konfirmasi Email</label>
                                         </div>
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="<?php echo $eml; ?>" required>
+                                        <input type="text" placeholder="Confirm email" class="form-control" name="email" value="<?php echo $email; ?>" required>
                                     </div> 
                                     <div class="card-header py-3">
                                         <label for="tm" class="form-label text-primary font-weight-bold"></label>
@@ -179,7 +186,7 @@ if (isset($_POST['submit'], $eml)) {
                                             <label for="tanggal" class="form-label text-primary font-weight-bold">Tanggal</label>
                                         </div>
                                         <div>
-                                        <input type="date" class="form-control" id="tanggal" name="tgl_pesan" placeholder="time" value="<?php echo $tanggal; ?>" required>
+                                        <input type="date" placeholder="date" class="form-control" name="tanggal" value="<?php echo $tanggal; ?>" required>
                                         </div>
                                     </div> 
                                     <div class="card-header py-3">
@@ -192,7 +199,7 @@ if (isset($_POST['submit'], $eml)) {
                                         <div class="card-header py-3">
                                             <label for="tm" class="form-label text-primary font-weight-bold">Jam Mulai</label>
                                         </div>
-                                        <input type="time" class="form-control" id="tm" name="jam_pesan" placeholder="time" value="<?php echo $jm_awl; ?>" required>
+                                        <input type="time" placeholder="Start time" class="form-control" name="jam_pesan" value="<?php echo $jam_pesan; ?>" required>
                                     </div> 
                                     <!-- Jam Selesai -->
                                         <div class="card-header py-3">
@@ -202,7 +209,7 @@ if (isset($_POST['submit'], $eml)) {
                                         <div class="card-header py-3">
                                             <label for="wm" class="form-label text-primary font-weight-bold">Jam Selesai</label>
                                         </div>
-                                        <input type="time" class="form-control" id="wm" name="Jam_selesai" placeholder="time" value="<?php echo $jm_akr; ?>" required>
+                                        <input type="time" placeholder="Finish time" class="form-control" name="Jam_selesai" value="<?php echo $Jam_selesai; ?>" required>
                                     </div>
                                 </div> 
                                 <!-- lapangan -->
@@ -212,15 +219,8 @@ if (isset($_POST['submit'], $eml)) {
                                             <label for="nolpgn" class="form-label text-primary font-weight-bold">Lapangan</label>
                                         </div>
                                         <div class="lpg">
-                                        <select class="form-select" aria-label="Default select example" id="nolpgn">
-                                            <option selected>-Pilih-</option>
-                                            <?php 
-                                            $lpg = mysqli_query($conn,"SELECT no_lpgn FROM lapangan");
-                                            while($row=mysqli_fetch_array($lpg)) {
-                                            ?>
-                                            <option value="<?php echo $nolpg; ?>" required><?php echo $row[0] ?></option>
-                                            <?php } ?>
-                                        </select>
+                                        <input type="text" placeholder="nomor lapangan" class="form-control" name="no_lpgn" value="<?php echo $no_lpgn; ?>" required>
+                                        <p><span>isi sesuai dengan nomor lapangan yang terdapat di daftar</span></p>
                                         </div>
                                     </div>
                                     <div class="card-header py-3">
@@ -234,7 +234,7 @@ if (isset($_POST['submit'], $eml)) {
                                             <label for="jmn" class="form-label text-primary font-weight-bold">Jaminan</label>
                                         </div>
                                         <div class="mb-3">
-                                            <input class="form-control" type="file" id="formFile" value="<?php echo $jaminan; ?>" required>
+                                        <input type="file" placeholder="jaminan" class="form-control" name="jaminan" value="<?php echo $jaminan; ?>" required>
                                             <label for="formFile" class="form-label">nb. Jaminan berupa data diri seperti KTP/SIM</label>
                                         </div>
                                     </div>
@@ -243,7 +243,7 @@ if (isset($_POST['submit'], $eml)) {
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary" name="login">Kirim</button>
+                            <button name="submit" class="btn btn-primary">Kirim</button>
                         </form>
                 </div>
                 <!-- /.container-fluid -->

@@ -3,10 +3,10 @@
 session_start();
  
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-}
+      header("Location: login.php");
+  }
 include "koneksi.php";
-$tbl = mysqli_query($conn,"SELECT s.jam_pesan, s.tgl_pesan, s.jam_selesai, p.username FROM pemesanan s, pelanggan p where p.email = s.email order by tgl_pesan asc ");
+$tbl = mysqli_query($conn,"SELECT s.jam_pesan, s.tgl_pesan, s.jam_selesai, p.username, l.no_lpgn FROM pemesanan s, pelanggan p, lapangan l where p.email = s.email and l.no_lpgn = s.no_lpgn order by tgl_pesan and jam_pesan asc; ");
 
 $query1 = mysqli_query($conn,"SELECT * FROM lapangan WHERE jenis_lpgn = 'Lapangan 1 Outdoor'");
 $row_query1 = mysqli_fetch_array($query1);
@@ -140,7 +140,7 @@ $row_query4 = mysqli_fetch_array($query4);
                     <!-- Content Row -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Lapangan</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Daftar Lapangan dan Harga</h6>
                         </div>
                     </div>
                 <div class="card-body">
@@ -153,7 +153,10 @@ $row_query4 = mysqli_fetch_array($query4);
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                <?php echo $row_query1['jenis_lpgn']?></div>
+                                                <?php 
+                                                echo $row_query1['jenis_lpgn']." ". " ";
+                                                echo " ' ".$row_query1['no_lpgn']." ' ";
+                                                ?></div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo "Rp ".number_format($row_query1['harga'],2) . "/jam". "<br>";?></div>
                                         </div>
                                         <div class="col-auto">
@@ -171,7 +174,10 @@ $row_query4 = mysqli_fetch_array($query4);
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            <?php echo $row_query2['jenis_lpgn']?></div>
+                                            <?php 
+                                                echo $row_query2['jenis_lpgn']." "." ";
+                                                echo " ' ".$row_query2['no_lpgn']." ' ";
+                                                ?></div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo "Rp ".number_format($row_query2['harga'],2) . "/jam". "<br>";?></div>
                                         </div>
                                         <div class="col-auto">
@@ -188,7 +194,10 @@ $row_query4 = mysqli_fetch_array($query4);
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                            <?php echo $row_query3['jenis_lpgn']?></div>
+                                            <?php 
+                                                echo $row_query3['jenis_lpgn']." "." ";
+                                                echo " ' ".$row_query3['no_lpgn']." ' ";
+                                                ?></div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo "Rp ".number_format($row_query3['harga'],2) . "/jam". "<br>";?></div>
                                         </div>
                                         <div class="col-auto">
@@ -205,7 +214,10 @@ $row_query4 = mysqli_fetch_array($query4);
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            <?php echo $row_query4['jenis_lpgn']?></div>
+                                            <?php 
+                                                echo $row_query4['jenis_lpgn']." "." ";
+                                                echo " ' ".$row_query4['no_lpgn']." ' ";
+                                                ?></div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo "Rp ".number_format($row_query4['harga'],2) . "/jam". "<br>";?></div>
                                         </div>
                                         <div class="col-auto">
@@ -233,16 +245,18 @@ $row_query4 = mysqli_fetch_array($query4);
                                             <th>Nama</th>
                                             <th>Jam Mulai</th>
                                             <th>Jam Berakhir</th>
+                                            <th>lapangan</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
-                                        <!-- <tr>
+                                        <tr>
+                                            <th>No</th>
                                             <th>Tanggal</th>
-                                            <th>Jam</th>
                                             <th>Nama</th>
-                                            <th>Harga</th>
-                                            
-                                        </tr> -->
+                                            <th>Jam Mulai</th>
+                                            <th>Jam Berakhir</th>
+                                            <th>lapangan</th>
+                                        </tr>
                                     </tfoot>
                                     <tbody>
                                     <?php $i=1;?>
@@ -251,6 +265,7 @@ $row_query4 = mysqli_fetch_array($query4);
                                             $jam1 = $row["jam_pesan"];
                                             $jam2 = $row["jam_selesai"];
                                             $nama = $row["username"];
+                                            $no_lpgn = $row["no_lpgn"];
                                             echo "
                                             <tr>
                                                 <td>$i</td>
@@ -258,6 +273,7 @@ $row_query4 = mysqli_fetch_array($query4);
                                                 <td>$nama</td>
                                                 <td>$jam1</td>
                                                 <td>$jam2</td>
+                                                <td>$no_lpgn</td>
                                             </tr>
 
                                             ";
