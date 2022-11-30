@@ -3,6 +3,9 @@
 error_reporting(0);
 include 'koneksi.php';
 session_start();
+if (!isset($_SESSION['username'])){
+    header("Location: login.php");
+}
 
 if (isset($_POST['submit'])) {
     $email = $_POST['email'];
@@ -10,30 +13,17 @@ if (isset($_POST['submit'])) {
     $jam_pesan = $_POST['jam_pesan'];
     $Jam_selesai = $_POST['Jam_selesai'];
     $no_lpgn = $_POST['no_lpgn'];
-    $jaminan = md5($_POST['jaminan']);
+    $jaminan = $_POST['jaminan'];
  
-        $sql = "SELECT * FROM pelanggan WHERE email='$email'";
-        $result = mysqli_query($conn, $sql);
-        if ($result->num_rows > 0) {
+
+  
             $sql = "INSERT INTO pemesanan (email, jam_pesan, Jam_selesai, tanggal, no_lpgn, jaminan)
                     VALUES ('$email', '$jam_pesan', '$Jam_selesai', '$tanggal', '$no_lpgn', '$jaminan' )";
             $result = mysqli_query($conn, $sql);
-            if ($result) {
-                echo "<script>alert('Selamat, Pemesanan anda berhasil!')</script>";
-                $email = "";
-                $tanggal = "";
-                $jam_pesan = "";
-                $Jam_selesai = "";
-                $no_lpgn = "";
-                $_POST['jaminan'] = "";
-            } else {
-                echo "<script>alert('Woops! Terjadi kesalahan dalam memesan.')</script>";
+
+
             }
-        } else {
-            echo "<script>alert('Woops! Email tidak sesuai dengan akun anda.')</script>";
-        }
          
-    }
 
 
 
