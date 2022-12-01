@@ -7,22 +7,23 @@ if (!isset($_SESSION['username'])){
     header("Location: login.php");
 }
 
+
+
 if (isset($_POST['submit'])) {
     $email = $_POST['email'];
-    $tanggal = $_POST['tanggal'];
+    $tanggal = $_POST['tgl_pesan'];
     $jam_pesan = $_POST['jam_pesan'];
     $Jam_selesai = $_POST['Jam_selesai'];
     $no_lpgn = $_POST['no_lpgn'];
     $jaminan = $_POST['jaminan'];
  
 
-  
-            $sql = "INSERT INTO pemesanan (email, jam_pesan, Jam_selesai, tanggal, no_lpgn, jaminan)
-                    VALUES ('$email', '$jam_pesan', '$Jam_selesai', '$tanggal', '$no_lpgn', '$jaminan' )";
-            $result = mysqli_query($conn, $sql);
-
-
-            }
+    $query = "INSERT INTO pemesanan (no, email, jam_pesan, Jam_selesai, tgl_pesan, no_lpgn, jaminan) VALUES (' ', '$email', '$jam_pesan', '$Jam_selesai', '$tanggal', '$no_lpgn', '$jaminan' )";
+    $result = mysqli_query($conn, $query);
+    echo "
+    <script> alert('Pemesanan anda sedang di proses')</script>
+    ";
+    }
          
 
 
@@ -163,7 +164,7 @@ if (isset($_POST['submit'])) {
                                         <div class="card-header py-3">
                                             <label for="cemail" class="form-label text-primary font-weight-bold">Konfirmasi Email</label>
                                         </div>
-                                        <input type="text" placeholder="Confirm email" class="form-control" name="email" value="<?php echo $email; ?>" required>
+                                        <input type="text" placeholder="Confirm email"  class="form-control"  name="email" value="<?php echo $email; ?>" required>
                                     </div> 
                                     <div class="card-header py-3">
                                         <label for="tm" class="form-label text-primary font-weight-bold"></label>
@@ -209,8 +210,15 @@ if (isset($_POST['submit'])) {
                                             <label for="nolpgn" class="form-label text-primary font-weight-bold">Lapangan</label>
                                         </div>
                                         <div class="lpg">
-                                        <input type="text" placeholder="nomor lapangan" class="form-control" name="no_lpgn" value="<?php echo $no_lpgn; ?>" required>
-                                        <p><span>isi sesuai dengan nomor lapangan yang terdapat di daftar</span></p>
+                                        <select class="form-select" name="no_lpgn" aria-label="Default select example">
+                                        <option selected>pilih Lapangan</option>
+                                        <?php 
+                                            $sql = mysqli_query($conn,"SELECT * FROM lapangan");
+                                            while ($row=mysqli_fetch_assoc($sql)){
+                                            ?>
+                                        <option  value="<?php echo $no_lpgn?>"><?php echo $row['no_lpgn'];?></option>
+                                        <?php }?>
+                                        </select>
                                         </div>
                                     </div>
                                     <div class="card-header py-3">
