@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
       header("Location: login.php");
   }
   include 'koneksi.php';
-  $tbl = mysqli_query($conn,"SELECT * FROM pemesanan WHERE email = '$email1'");
+  $tbl = mysqli_query($conn,"SELECT s.id, s.tgl_pesan, s.jam_pesan, s.Jam_selesai, s.no_lpgn,s.jaminan, p.username FROM pemesanan s, pelanggan p WHERE s.email = p.email AND username = '$_SESSION[username]'");
  
 ?>
  
@@ -135,7 +135,7 @@ if (!isset($_SESSION['username'])) {
                                     <thead>
                                         <tr>
                                              <th>No</th>
-                                            <th>Email</th>
+                                            <th>Nama</th>
                                             <th>Tanggal</th>
                                             <th>Jam Mulai</th>
                                             <th>Jam Berakhir</th>
@@ -144,7 +144,7 @@ if (!isset($_SESSION['username'])) {
                                             <th colspan="2">Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
+                                    <!-- <tfoot>
                                         <tr>
                                             <th>No</th>
                                             <th>Email</th>
@@ -155,11 +155,11 @@ if (!isset($_SESSION['username'])) {
                                             <th>Jaminan</th>
                                             <th colspan="2">Aksi</th>
                                         </tr>
-                                    </tfoot>
+                                    </tfoot> -->
                                     <tbody>
                                         <?php while($row=mysqli_fetch_array($tbl)) {
-                                            $no = $row["no"];
-                                            $email = $row["email"];
+                                            $no = $row["id"];
+                                            $nama = $row["username"];
                                             $tgl = $row["tgl_pesan"];
                                             $jam1 = $row["jam_pesan"];
                                             $jam2 = $row["Jam_selesai"];
@@ -168,14 +168,14 @@ if (!isset($_SESSION['username'])) {
                                             echo "
                                             <tr>
                                                 <td>$no</td>
-                                                <td>$email</td>
+                                                <td>$nama</td>
                                                 <td>$tgl</td>
                                                 <td>$jam1</td>
                                                 <td>$jam2</td>
                                                 <td>$no_lpgn</td>
                                                 <td>$jaminan</td>
-                                                <td>Edit</td>
-                                                <td><a href='?no=$no'>Hapus<a></td>
+                                                <td><a href='edit.php?no=$no'>Edit</a></td>
+                                                <td><a href='?jam1=$jam1'>Hapus<a></td>
                                             </tr>
 
                                             ";
@@ -183,8 +183,8 @@ if (!isset($_SESSION['username'])) {
                                     </tbody>
                                 </table>
                                 <?php
-                                if(isset($_GET['no'])){
-                                    mysqli_query($conn,"DELETE FROM pemesanan WHERE no='$_GET[no]'");
+                                if(isset($_GET['jam1'])){
+                                    mysqli_query($conn,"DELETE FROM pemesanan WHERE jam_pesan='$_GET[jam1]'");
                                     echo "Data telah terhapus";
                                     echo "<meta http-equiv=refresh content=2;URL='pesan.php'>";
                                 }

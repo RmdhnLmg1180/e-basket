@@ -29,6 +29,7 @@ if (isset($_POST['submit'])) {
                 $email = "";
                 $_POST['password'] = "";
                 $_POST['cpassword'] = "";
+                header("location: login.php");
             } else {
                 echo "<script>alert('Woops! Terjadi kesalahan.')</script>";
             }

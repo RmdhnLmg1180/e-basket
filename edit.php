@@ -1,29 +1,15 @@
 <?php 
 
-// error_reporting(0);
+error_reporting(0);
+
 include 'koneksi.php';
 session_start();
 if (!isset($_SESSION['username'])){
     header("Location: login.php");
 }
 
-if (isset($_POST['submit'])) {
-    $email = $_POST['email'];
-    $tanggal = $_POST['tgl_pesan'];
-    $jam_pesan = $_POST['jam_pesan'];
-    $Jam_selesai = $_POST['Jam_selesai'];
-    $no_lpgn = $_POST['no_lpgn'];
-    $jaminan = $_POST['jaminan'];
- 
-
-  
-    $query = "INSERT INTO pemesanan VALUES ('', '$email', '$jam_pesan', '$Jam_selesai', '$tanggal', '$no_lpgn', '$jaminan' )";
-    $result = mysqli_query($conn, $query);
-    if($result){
-        header("location:pesan.php");
-    }
-
-    }
+$sql=mysqli_query($conn,"SELECT * FROM pemesanan WHERE id = '$_GET[no]'");
+$data=mysqli_fetch_array($sql);
          
 
 
@@ -85,7 +71,7 @@ if (isset($_POST['submit'])) {
                 </a>
             </li>
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="pemesanan.php">
                     <i class="fa-solid fa-clipboard"></i>
                     <span>Pemesanan</span>
@@ -147,29 +133,17 @@ if (isset($_POST['submit'])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800"><i class="fa-solid fa-clipboard"></i> Pemesanan</h1>
+                        <h1 class="h3 mb-0 text-gray-800"><i class="fa-solid fa-clipboard"></i> Edit Pemesanan</h1>
                     </div>
 
                     <!-- Content Row -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-info">Silahkan isi Form dibawah ini !</h6>
+                            <h6 class="m-0 font-weight-bold text-info">Silahkan rubah jadwal pemesanan anda!</h6>
                         </div>
                     </div>
                         <form action="" method="post">
                             <div class="pesanan">
-                                <!-- email -->
-                                <div class="d-sm-flex">
-                                    <div>
-                                        <div class="card-header py-3">
-                                            <label for="cemail" class="form-label text-primary font-weight-bold">Konfirmasi Email</label>
-                                        </div>
-                                        <input type="text" placeholder="Confirm email" class="form-control" name="email" value="" required>
-                                    </div> 
-                                    <div class="card-header py-3">
-                                        <label for="tm" class="form-label text-primary font-weight-bold"></label>
-                                    </div>
-                                </div>
                                 <!-- tanggal -->
                                 <div class="d-sm-flex">
                                     <div>
@@ -177,7 +151,7 @@ if (isset($_POST['submit'])) {
                                             <label for="tanggal" class="form-label text-primary font-weight-bold">Tanggal</label>
                                         </div>
                                         <div>
-                                        <input type="date" placeholder="date" class="form-control" name="tgl_pesan" value="<?php echo $tanggal; ?>" required>
+                                        <input type="date" placeholder="date" class="form-control" name="tgl_pesan" value="<?php echo $data['tgl_pesan'];?>" >
                                         </div>
                                     </div> 
                                     <div class="card-header py-3">
@@ -190,7 +164,7 @@ if (isset($_POST['submit'])) {
                                         <div class="card-header py-3">
                                             <label for="tm" class="form-label text-primary font-weight-bold">Jam Mulai</label>
                                         </div>
-                                        <input type="time" placeholder="Start time" class="form-control" name="jam_pesan" value="<?php echo $jam_pesan; ?>" required>
+                                        <input type="time" placeholder="Start time" class="form-control" name="jam_pesan" value="<?php echo $data['jam_pesan'];?>">
                                     </div> 
                                     <!-- Jam Selesai -->
                                         <div class="card-header py-3">
@@ -200,7 +174,7 @@ if (isset($_POST['submit'])) {
                                         <div class="card-header py-3">
                                             <label for="wm" class="form-label text-primary font-weight-bold">Jam Selesai</label>
                                         </div>
-                                        <input type="time" placeholder="Finish time" class="form-control" name="Jam_selesai" value="<?php echo $Jam_selesai; ?>" required>
+                                        <input type="time" placeholder="Finish time" class="form-control" name="Jam_selesai" value="<?php echo $data['Jam_selesai'];?>" >
                                     </div>
                                 </div> 
                                 <!-- lapangan -->
@@ -210,7 +184,7 @@ if (isset($_POST['submit'])) {
                                             <label for="nolpgn" class="form-label text-primary font-weight-bold">Lapangan</label>
                                         </div>
                                         <div class="lpg">
-                                        <input type="text" placeholder="nomor lapangan"  class="form-control" name="no_lpgn" value="" required>
+                                        <input type="text" placeholder="nomor lapangan" style="text-transform:uppercase" class="form-control" name="no_lpgn" value="<?php echo $data['no_lpgn'];?>" >
                                         <p><span>isi sesuai dengan nomor lapangan yang terdapat di daftar</span></p>
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
@@ -252,24 +226,21 @@ if (isset($_POST['submit'])) {
                                             <label for="tm" class="form-label text-primary font-weight-bold"></label>
                                     </div>
                                 </div>
-                                <!-- Jaminan -->
-                                <div class="d-sm-flex">
-                                    <div>
-                                        <div class="card-header py-3">
-                                            <label for="jmn" class="form-label text-primary font-weight-bold">Jaminan</label>
-                                        </div>
-                                        <div class="mb-3">
-                                        <input type="file" placeholder="jaminan" class="form-control" name="jaminan" value="<?php echo $jaminan; ?>" required>
-                                            <label for="formFile" class="form-label">nb. Jaminan berupa data diri seperti KTP/SIM</label>
-                                        </div>
-                                    </div>
-                                    <div class="card-header py-3">
-                                            <label for="tm" class="form-label text-primary font-weight-bold"></label>
-                                    </div>
-                                </div>
                             </div>
                             <button name="submit" class="btn btn-primary">Kirim</button>
                         </form>
+                        <?php
+                        if(isset($_POST['submit'])){
+                            $tgl = $_POST['tgl_pesan'];
+                            $jm1 = $_POST['jam_pesan'];
+                            $jm2 = $_POST['Jam_selesai'];
+                            $lpg = $_POST['no_lpgn'];
+
+                            mysqli_query($conn,"UPDATE pemesanan set tgl_pesan = '$tgl', jam_pesan = '$jm1', Jam_selesai = '$jm2', no_lpgn = '$lpg' WHERE id = $_GET[no]");
+                            header("Location: pesan.php");
+                            echo "<meta http-equiv=refresh content=1;URL='pesan.php'>";
+                        }
+                        ?>
                 </div>
                 <!-- /.container-fluid -->
 

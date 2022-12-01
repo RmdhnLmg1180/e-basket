@@ -248,7 +248,7 @@ $row_query4 = mysqli_fetch_array($query4);
                                             <th>lapangan</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
+                                    <!-- <tfoot>
                                         <tr>
                                             <th>No</th>
                                             <th>Tanggal</th>
@@ -257,7 +257,7 @@ $row_query4 = mysqli_fetch_array($query4);
                                             <th>Jam Berakhir</th>
                                             <th>lapangan</th>
                                         </tr>
-                                    </tfoot>
+                                    </tfoot> -->
                                     <tbody>
                                     <?php $i=1;?>
                                         <?php while($row=mysqli_fetch_array($tbl)) {
