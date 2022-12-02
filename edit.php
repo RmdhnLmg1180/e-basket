@@ -238,6 +238,7 @@ $data=mysqli_fetch_array($sql);
 
                             mysqli_query($conn,"UPDATE pemesanan set tgl_pesan = '$tgl', jam_pesan = '$jm1', Jam_selesai = '$jm2', no_lpgn = '$lpg' WHERE id = $_GET[no]");
                             header("Location: pesan.php");
+                            echo "<script>alert('data telah di rubah')</script>";
                             echo "<meta http-equiv=refresh content=1;URL='pesan.php'>";
                         }
                         ?>

@@ -17,7 +17,7 @@ if (isset($_POST['submit'])) {
     $cpassword = md5($_POST['cpassword']);
  
     if ($password == $cpassword) {
-        $sql = "SELECT * FROM pelanggan WHERE email='$email'";
+        $sql = "SELECT * FROM pelanggan WHERE email='$email' AND username = '$username'";
         $result = mysqli_query($conn, $sql);
         if (!$result->num_rows > 0) {
             $sql = "INSERT INTO pelanggan (username, email, password)
@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
                 echo "<script>alert('Woops! Terjadi kesalahan.')</script>";
             }
         } else {
-            echo "<script>alert('Woops! Email Sudah Terdaftar.')</script>";
+            echo "<script>alert('Woops! Email dan username Sudah Terdaftar.')</script>";
         }
          
     } else {

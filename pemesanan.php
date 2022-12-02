@@ -20,6 +20,7 @@ if (isset($_POST['submit'])) {
     $query = "INSERT INTO pemesanan VALUES ('', '$email', '$jam_pesan', '$Jam_selesai', '$tanggal', '$no_lpgn', '$jaminan' )";
     $result = mysqli_query($conn, $query);
     if($result){
+        echo "<script>alert('Terima kasih telah boking lapangan di kami!')</script>";
         header("location:pesan.php");
     }
 
@@ -164,7 +165,11 @@ if (isset($_POST['submit'])) {
                                         <div class="card-header py-3">
                                             <label for="cemail" class="form-label text-primary font-weight-bold">Konfirmasi Email</label>
                                         </div>
-                                        <input type="text" placeholder="Confirm email" class="form-control" name="email" value="" required>
+                                        <?php
+                                        $sql = mysqli_query($conn, "SELECT * FROM pelanggan WHERE username = '$_SESSION[username]'");
+                                        $data = mysqli_fetch_array($sql);
+                                        ?>
+                                        <input type="text" placeholder="Confirm email" readonly class="form-control" name="email" id="staticEmail" value="<?php echo $data['email'];?>">
                                     </div> 
                                     <div class="card-header py-3">
                                         <label for="tm" class="form-label text-primary font-weight-bold"></label>
