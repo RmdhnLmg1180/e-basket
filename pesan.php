@@ -24,7 +24,7 @@ if (!isset($_SESSION['username'])) {
     <meta name="author" content="">
 
     <title>E-Basket | Pemesanan</title>
-
+    <link rel="icon" type="image/x-icon" href="gambar/Logo.ico">
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -174,8 +174,8 @@ if (!isset($_SESSION['username'])) {
                                                 <td>$jam2</td>
                                                 <td>$no_lpgn</td>
                                                 <td>$jaminan</td>
-                                                <td><a href='edit.php?no=$no'>Edit</a></td>
-                                                <td><a href='?jam1=$jam1'>Hapus<a></td>
+                                                <td><a href='edit.php?no=$no' class='btn btn-primary'>Edit</a></td>
+                                                <td><a href='?jam1=$jam1' class='btn btn-primary'>Hapus<a></td>
                                             </tr>
 
                                             ";

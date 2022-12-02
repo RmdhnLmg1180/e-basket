@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
     <meta name="author" content="">
 
     <title>E-Basket | Pemesanan</title>
-
+    <link rel="icon" type="image/x-icon" href="gambar/Logo.ico">
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link

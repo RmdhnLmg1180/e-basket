@@ -33,7 +33,7 @@ $row_query4 = mysqli_fetch_array($query4);
     <meta name="author" content="">
 
     <title>E-Basket | Home</title>
-
+    <link rel="icon" type="image/x-icon" href="gambar/Logo.ico">
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
